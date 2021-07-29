@@ -1,0 +1,5 @@
+#the initial samples dir and databases dirs:
+db_dir: databases/
+q_dir: queries/
+
+# additional thresholds if needed here below
