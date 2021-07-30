@@ -11,8 +11,13 @@ dbs= sorted(set([s.strip(".faa") for s in db_files]))
 q_files = [f for f in listdir(config["q_dir"]) if isfile(join(config["q_dir"], f))]
 queries= sorted(set([s.strip(".fasta") for s in q_files]))
 
+#raw data path definition
 DBD= os.path.abspath(config["db_dir"])
 QD= os.path.abspath(config["q_dir"])
+
+#processed data path definition
+PROC_DBD= os.path.abspath(config["processed_db_dir"])
+PROC_REP= os.path.abspath(config["results_dir"])
 
 #clone the necessary files in there
 import os
@@ -35,5 +40,13 @@ rule all:
 
 #getting the database search going
 
-rule database_search:
+rule database_formatting:
+    threads: workflow.cores * 0.5
+    input:
+        raw_db=os.path.join(DBD,"{db}.faa")
+    output:
+        form_db=os.path.join(PROC_DBD,"{db}.dmnd")
+    shell:
+        "config/diamond makedb --in {raw_db} --db {form_db}"
+
 

@@ -2,4 +2,6 @@
 db_dir: databases/
 q_dir: queries/
 
+processed_db_dir: formatted_db/
+results_dir: results/
 # additional thresholds if needed here below
