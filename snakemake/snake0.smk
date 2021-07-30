@@ -41,7 +41,7 @@ rule all:
 #getting the database search going
 
 rule database_formatting:
-    threads: workflow.cores * 0.5
+    threads: workflow.cores * 0.25
     input:
         raw_db=os.path.join(DBD,"{db}.faa")
     output:
@@ -49,4 +49,20 @@ rule database_formatting:
     shell:
         "config/diamond makedb --in {raw_db} --db {form_db}"
 
-
+rule database_searching:
+    threads: workflow.cores * 0.25
+    input:
+        raw_query=os.path.join(QD,"{sample}.fasta"),
+	search_db=os.path.join(PROC_DBD,"{db}.dmnd")
+    output:
+        matches=os.path.join(PROC_REP,"{sample}.vs.{db}.matches.tsv")
+    params:
+        query_gencode=config["db_search_gencode"],
+	p=config["db_search_p"],
+	id=config["db_search_id"],
+	subject_cover=config["db_search_sub_cover"],
+	outfmt=config["outfmt"],
+	b=config["db_search_b"],
+	max_tar_seqs=config["db_search_max_tar_seqs"]
+    shell:
+        "config/diamond blastx --query-gencode {params.query_gencode} -d {input.seach_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
