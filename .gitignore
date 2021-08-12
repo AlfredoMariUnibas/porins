@@ -2,3 +2,4 @@ scicore/env/
 scicore/diamond-linux64.tar.gz
 snakemake/config/diamond-linux64.tar.gz
 env/
+snakemake/test0/
