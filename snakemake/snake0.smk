@@ -30,7 +30,7 @@ else:
     os.system('cp -r temp_soft/repo/config/* config/')
     os.system('cp temp_soft/repo/settings.yaml .')
     os.system('rm -rf temp_soft')
-    os.system('chmod 775 config/dependencies/*')
+    os.system('chmod 775 config/*')
 configfile: "settings.yaml"
 
 #defining the outputs
