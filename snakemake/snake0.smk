@@ -44,7 +44,8 @@ PROC_REP=config["results_dir"]
 rule all:
     input:
         expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
-	expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs)
+	expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs),
+	config["out_file"]
 
 #getting the database search going
 
@@ -75,3 +76,16 @@ rule database_searching:
 	max_tar_seqs=config["db_search_max_tar_seqs"]
     shell:
         "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
+
+rule output_formatter:
+    threads: workflow.cores * 1
+    input:
+        pro="databases"
+    params:
+        dir= config["results_dir"]
+    output:
+        outtable=config["out_file"]
+    conda:
+        "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/dependencies/R.yaml"
+    shell:
+        "Rscript /scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/dependencies/writer.R {params.dir} {output.outtable}"
