@@ -69,8 +69,9 @@ rule database_searching:
 	p=config["db_search_p"],
 	id=config["db_search_id"],
 	subject_cover=config["db_search_sub_cover"],
+	masking=config["masking"],
 	outfmt=config["db_search_outfmt"],
 	b=config["db_search_b"],
 	max_tar_seqs=config["db_search_max_tar_seqs"]
     shell:
-        "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
+        "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
