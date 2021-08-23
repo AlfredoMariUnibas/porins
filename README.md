@@ -37,7 +37,7 @@ $ snakemake -s path/to/PorinMatcher/snakemake/snake0.smk --use-conda --cores 4 -
 ```
 please note that if no `--config` flag is used, the default parameters will apply. Please find below a list of each customisable parameter, and its defaults
 
-### Paramters
+### Parameters
 | Parameter | Description | Default |
 |--------|---------|------|
 | db_dir | Directory containing the databases [string/path] | databases/ |
