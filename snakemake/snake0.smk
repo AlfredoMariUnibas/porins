@@ -45,8 +45,7 @@ rule all:
     input:
         expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
 	expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs),
-	config["out_file"]
-
+	os.path.join(PROC_REP,"collated.results.txt")
 #getting the database search going
 
 rule database_formatting:
@@ -84,7 +83,7 @@ rule output_formatter:
     params:
         dir= config["results_dir"]
     output:
-        outtable=config["out_file"]
+        outtable=os.path.join(PROC_REP,"collated.results.txt")
     conda:
         "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/dependencies/R.yaml"
     shell:
