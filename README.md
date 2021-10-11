@@ -13,7 +13,8 @@ Snakemake runs best if contextually mamba is installed as well
 ```
 $ conda install -n base -c conda-forge mamba
 $ conda activate base
-$ mamba create -c conda-forge -c bioconda -n snakemake snakemake
+$ mamba create -c conda-forge -c bioconda -p path/to/your/snakemake snakemake
+$ conda activate path/to/your/snakemake
 ```
 Afterwards, to import the scripts and the dependencies, clone this repository to your directory of choice
 
