@@ -52,4 +52,3 @@ please note that if no `--config` flag is used, the default parameters will appl
 | db_search_outfmt | Correspondant of `--outfmt` in diamond [integer] | 6 |
 | db_search_b | Correspondant of `-b` in diamond [integer] | 6 |
 | db_search_max_tar_seqs | Correspondant of `--max-target-seqs` in diamond [integer] | 10 |
-| out_file | The full path and name of the table collecting all results of the run [string/path] | results/Collated_table.txt |
