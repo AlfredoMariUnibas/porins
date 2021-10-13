@@ -3,6 +3,10 @@
 import os
 from os import listdir
 from os.path import isfile, join
+#configfile
+import subprocess
+confpath = subprocess.getoutput(['find . -name settings.yaml'])
+configfile: confpath
 
 #clone the necessary files in there
 
@@ -24,8 +28,7 @@ else:
 import subprocess
 confpath = subprocess.getoutput(['find . -name settings.yaml'])
 configfile: confpath
-
-
+	
 #dbs --> to be sourced from db_dir
 db_files = [f for f in listdir(config["db_dir"]) if isfile(join(config["db_dir"], f))]
 dbs= sorted(set([s.strip(".faa") for s in db_files]))
@@ -38,23 +41,14 @@ print(queries)
 DBD= os.path.abspath(config["db_dir"])
 QD= os.path.abspath(config["q_dir"])
 
-print("DBD, the database directory is",DBD)
-print("QD, the query directory is",QD)
-
 #processed data path definition
 PROC_DBD=config["processed_db_dir"]
 PROC_REP=config["results_dir"]
-
-print("PROC_DBD, the processed database directory is",PROC_DBD)
 
 #os.mkdir(PROC_DBD)
 #os.mkdir(PROC_REP)
 
 #defining the outputs
-print("rule all defines the following output to be printed:",expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs))
-print("seond aargument deinfed by rule all:", expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs))
-print("and finally the final output:", os.path.join(PROC_REP,"collated.results.txt"))
-
 rule all:
     input:
         expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
@@ -93,9 +87,9 @@ rule database_searching:
 rule output_formatter:
     threads: workflow.cores * 1
     input:
-        pro="databases"
+        pro=config["db_dir"]#"databases"
     params:
-        dir= config["results_dir"]
+        dir=config["results_dir"]
     output:
         outtable=os.path.join(PROC_REP,"collated.results.txt")
     conda:
