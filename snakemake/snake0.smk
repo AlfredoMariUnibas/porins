@@ -87,7 +87,7 @@ rule database_searching:
 rule output_formatter:
     threads: workflow.cores * 1
     input:
-        pro="databases"
+        form_db=expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs)
     params:
         dir= config["results_dir"]
     output:
