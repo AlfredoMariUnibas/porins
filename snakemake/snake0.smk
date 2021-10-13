@@ -4,7 +4,7 @@ import os
 from os import listdir
 from os.path import isfile, join
 #configfile
-configfile: "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/config/settings.yaml"
+configfile: "config/settings.yaml"
 
 
 #dbs --> to be sourced from db_dir
