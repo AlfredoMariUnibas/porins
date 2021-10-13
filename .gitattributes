@@ -1,0 +1,8 @@
+snakemake/databases/ filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples/porin_databases/phoE_Ecoli_db.faa filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples/queries/Ec_805207-20.fasta filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples/queries/GCF_017357505.fasta filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples/porin_databases/ompC_Ecoli_db.faa filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples/porin_databases/ompF_Ecoli_db.faa filter=lfs diff=lfs merge=lfs -text
+snakemake/databases/examples/porin_databases/oprD_P_aeruginosa_db.faa filter=lfs diff=lfs merge=lfs -text
