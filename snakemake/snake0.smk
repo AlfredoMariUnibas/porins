@@ -8,6 +8,27 @@ import subprocess
 confpath = subprocess.getoutput(['find . -name settings.yaml'])
 configfile: confpath
 
+#clone the necessary files in there
+
+import os
+if (os.path.exists(os.path.abspath('./config/'))):
+    print("\n Configuration file and dependencies already present, proceeding.. \n")
+    os.system('rm config/settings.yaml')
+else:
+    print("\n Configuration file and dependencies missing, starting the download from github.. \n")
+    os.system('git clone https://github.com/AlfredoMariUnibas/porins/ temp_soft/')
+    os.system('mkdir config/')
+    os.system('cp -r temp_soft/snakemake/config/* config/')
+    os.system('rm config/settings.yaml')
+    os.system('rm -rf temp_soft')
+    os.system('chmod 775 config/*')
+
+
+#configfile
+import subprocess
+confpath = subprocess.getoutput(['find . -name settings.yaml'])
+configfile: confpath
+	
 #dbs --> to be sourced from db_dir
 db_files = [f for f in listdir(config["db_dir"]) if isfile(join(config["db_dir"], f))]
 dbs= sorted(set([s.strip(".faa") for s in db_files]))
@@ -27,25 +48,12 @@ PROC_REP=config["results_dir"]
 #os.mkdir(PROC_DBD)
 #os.mkdir(PROC_REP)
 
-#clone the necessary files in there
-
-import os
-if (os.path.exists(os.path.abspath('./config/'))):
-    print("\n Configuration file and dependencies already present, proceeding.. \n")
-else:
-    print("\n Configuration file and dependencies missing, starting the download from github.. \n")
-    os.system('git clone https://github.com/AlfredoMariUnibas/porins/ temp_soft/')
-    os.system('mkdir config/')
-    os.system('cp -r temp_soft/snakemake/config/* config/')
-    os.system('rm -rf temp_soft')
-    os.system('chmod 775 config/*')
-
 #defining the outputs
 rule all:
     input:
         expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
-	expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs),
-	os.path.join(PROC_REP,"collated.results.txt")
+        expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs),
+        os.path.join(PROC_REP,"collated.results.txt")
 #getting the database search going
 
 rule database_formatting:
