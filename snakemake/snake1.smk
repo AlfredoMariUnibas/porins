@@ -93,6 +93,6 @@ rule output_formatter:
     output:
         outtable=os.path.join(PROC_REP,"collated.results.txt")
     conda:
-        "/Users/alfredo/env/R_mac.yaml"
+        "config/dependencies/R.yaml"
     shell:
         "Rscript config/dependencies/writer.R {params.dir} {output.outtable}"
