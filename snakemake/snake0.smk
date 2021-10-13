@@ -4,8 +4,9 @@ import os
 from os import listdir
 from os.path import isfile, join
 #configfile
-configfile: "config/settings.yaml"
-
+import subprocess
+confpath = subprocess.getoutput(['find . -name settings.yaml'])
+configfile: confpath
 
 #dbs --> to be sourced from db_dir
 db_files = [f for f in listdir(config["db_dir"]) if isfile(join(config["db_dir"], f))]
