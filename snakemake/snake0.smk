@@ -3,11 +3,6 @@
 import os
 from os import listdir
 from os.path import isfile, join
-#configfile
-import subprocess
-confpath = subprocess.getoutput(['find . -name settings.yaml'])
-configfile: confpath
-
 #clone the necessary files in there
 
 import os
