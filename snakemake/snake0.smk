@@ -8,20 +8,18 @@ from os.path import isfile, join
 import os
 if (os.path.exists(os.path.abspath('./config/'))):
     print("\n Configuration file and dependencies already present, proceeding.. \n")
-    os.system('rm config/settings.yaml')
 else:
     print("\n Configuration file and dependencies missing, starting the download from github.. \n")
     os.system('git clone https://github.com/AlfredoMariUnibas/porins/ temp_soft/')
     os.system('mkdir config/')
     os.system('cp -r temp_soft/snakemake/config/* config/')
-    os.system('rm config/settings.yaml')
     os.system('rm -rf temp_soft')
     os.system('chmod 775 config/*')
 
 
 #configfile
 import subprocess
-confpath = subprocess.getoutput(['find . -name settings.yaml'])
+confpath = subprocess.getoutput(['find . -name settings.yaml | head -1'])
 configfile: confpath
 	
 #dbs --> to be sourced from db_dir
