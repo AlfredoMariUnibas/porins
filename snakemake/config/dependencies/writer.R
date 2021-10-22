@@ -28,13 +28,15 @@ for (sf in files){
       	}
 }
 
-final_df$StopCodon_Detected <- "None"
-final_df$StopCodon_Detected[which(grepl("\\*",final_df$Aligned_sequence_QUERY)==TRUE)] <- "Yes"
+#final_df$StopCodon_Detected <- "None"
+#final_df$StopCodon_Detected[which(grepl("\\*",final_df$Aligned_sequence_QUERY)==TRUE)] <- "Yes"
 final_df$Mutation[which(as.numeric(final_df$DB_coverage_per_HSP)<90)] <- "Incomplete"
+final_df$Mutation[which(grepl("\\*",final_df$Aligned_sequence_QUERY)==TRUE)] <- "Nonsense"
 
-rem_df$StopCodon_Detected <- "None"
-rem_df$StopCodon_Detected[which(grepl("\\*",rem_df$Aligned_sequence_QUERY)==TRUE)] <- "Yes"
+
+#rem_df$StopCodon_Detected <- "None"
+#rem_df$StopCodon_Detected[which(grepl("\\*",rem_df$Aligned_sequence_QUERY)==TRUE)] <- "Yes"
 rem_df$Mutation[which(as.numeric(rem_df$DB_coverage_per_HSP)<90)] <- "Incomplete"
-
+rem_df$Mutation[which(grepl("\\*",rem_df$Aligned_sequence_QUERY)==TRUE)] <- "Nonsense"
 end_df <- rbind(final_df, rem_df)
 write.table(end_df, file = outfile, sep="\t", quote=F, col.names = T, row.names = F)
