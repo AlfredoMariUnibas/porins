@@ -9,11 +9,11 @@ results_dir: results/
 #db_search def thresholds 
 db_search_gencode: 11
 db_search_p: 16
-db_search_id: 70
+db_search_id: 90
 db_search_sub_cover: 50
 masking: 0
 db_search_outfmt: 6
 db_search_b: 6
-db_search_max_tar_seqs: 10
+db_search_max_tar_seqs: 1
 
 out_file: results/Collated_table.txt
