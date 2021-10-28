@@ -47,9 +47,9 @@ please note that if no `--config` flag is used, the default parameters will appl
 | results_dir | Directory contianing the results [string/path] | results/ | 
 | db_search_gencode| Correspondant of `--query-gencode` in diamond [integer] | 11 |
 | db_search_p | Correspondant of `-p` in diamond [integer] | 16 |
-| db_search_id | Correspondant of `--id` in diamond [integer] | 70 |
+| db_search_id | Correspondant of `--id` in diamond [integer] | 90 |
 | db_search_sub_cover | Correspondant of `--subject-cover` in diamond [integer] | 50 |
 | masking | Correspondant of `--masking` in diamond [integer] | 0 |
 | db_search_outfmt | Correspondant of `--outfmt` in diamond [integer] | 6 |
 | db_search_b | Correspondant of `-b` in diamond [integer] | 6 |
-| db_search_max_tar_seqs | Correspondant of `--max-target-seqs` in diamond [integer] | 10 |
+| db_search_max_tar_seqs | Correspondant of `--max-target-seqs` in diamond [integer] | 1 |
