@@ -3,23 +3,12 @@
 import os
 from os import listdir
 from os.path import isfile, join
-#clone the necessary files in there
-
-import os
-if (os.path.exists(os.path.abspath('./config/'))):
-    print("\n Configuration file and dependencies already present, proceeding.. \n")
-else:
-    print("\n Configuration file and dependencies missing, starting the download from github.. \n")
-    os.system('git clone https://github.com/AlfredoMariUnibas/porins/ temp_soft/')
-    os.system('mkdir config/')
-    os.system('cp -r temp_soft/snakemake/config/* config/')
-    os.system('rm -rf temp_soft')
-    os.system('chmod 775 config/*')
-
+#search for the directory where the snake pipe is
+repo_dir = os.path.dirname(os.path.realpath(__file__))
 
 #configfile
 import subprocess
-confpath = subprocess.getoutput(['find . -name settings.yaml | head -1'])
+confpath = os.path.join(repo_dir, "config/settings.yaml")
 configfile: confpath
 	
 #dbs --> to be sourced from db_dir
