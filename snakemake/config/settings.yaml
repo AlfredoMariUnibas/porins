@@ -1,5 +1,5 @@
 #the initial samples dir and databases dirs:
-db_dir: databases/
+db_dir: databases/cds/
 q_dir: queries/
 
 processed_db_dir: formatted_db/
