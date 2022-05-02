@@ -1,3 +1,6 @@
+#Author: Alfredo Mari
+#Date: 02/05/2022
+#Purpose: run contextual search of given genomes on cds / promoter custom curated databases and output a collective table summarising results 
 #search all the queries in all the databases, first let's define where to find the queries and where to find the databases
 
 import os
