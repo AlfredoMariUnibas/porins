@@ -1,0 +1,3 @@
+WorkflowError in line 15 of /Users/alf/Documents/por2/porins/snakemake/snake0.smk:
+Workflow defines configfile /Users/alf/conda/snakemake/lib/python3.10/site-packages/snakemake/config/settings.yaml but it is not present or accessible.
+  File "/Users/alf/Documents/por2/porins/snakemake/snake0.smk", line 15, in <module>
