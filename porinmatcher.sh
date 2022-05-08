@@ -114,6 +114,13 @@ if [ -z "$qdir" ];
 			echo "
 	## Query genomes: -G
 		The query genomes are set to $gfiles"
+			#move the files into a provisional temp dir
+			pdir=".tmp_genomedir/"
+			mkdir $pdir
+			for i in $(echo $gfiles | tr "," "\n")
+			do
+				cp $i $pdir 
+			done
 		fi
         else 
 		if [ -z "$gfiles" ];
@@ -121,6 +128,7 @@ if [ -z "$qdir" ];
                 	echo "
 	## Query dir: -Q
 		The query directory provided is set to $qdir"
+			pdir=$qdir
 		else
 			echo "
 	Error: -Q parameter and -G paramater are specified at the same time, you need to specify either single genomes (-G) or entire folders containing genomes (-Q)"
@@ -153,15 +161,15 @@ if [ -z "$taxonomy" ];
 "
 fi
 
-echo "### Step 0.1. Initialzation: Parsing and checking optional parameters.. ###"
+echo "### Step 0.1. Initialization: Parsing and checking optional parameters.. ###"
 
-piperoot="/Users/alf/Documents/por2"
+piperoot="/Users/alf/Documents/por2/porins"
 if [ -z "$dbdir" ];
         then
                 echo "
 	## Database folder: -D  
 		The database folder is set to the default: porin/snakemake/databases/cds"
-		dbdir=$piperoot/porins/snakemake/databases/cds/
+		dbdir=$piperoot/snakemake/databases/cds/
         else
                 echo "
 	 ## Database folder: -D
@@ -252,12 +260,19 @@ if [ -z "$dm" ];
 fi
 
 ##writing the settings.yaml for the snakemake to run
+mkdir config/
 echo "
+#The path to the repo:
+repopath: $piperoot
 #the initial samples dir and databases dirs:
+#database source
 db_dir: $dbdir
-q_dir: $qdir
+#genomes ready to be processed
+q_dir: $pdir
 
+#intermediate folder for formatted dbs
 processed_db_dir: $resdir/.formatted_db/
+#result folder
 results_dir: $resdir
 
 # additional thresholds if needed here below
@@ -272,6 +287,8 @@ db_search_b: $dsb
 db_search_max_tar_seqs: $dsm
 
 out_file: $resdir/Collated_table.txt
-" > settings.yaml
+" > config/settings.yaml
 
+#run snakemake
+snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores 4
 
