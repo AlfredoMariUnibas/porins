@@ -10,9 +10,14 @@ mess="Usage: $N [parameters]
      
     -h|--help        Print this message and exit
 
+## INPUTS: [only one of the following options required, either -Q or -G]
+
+    -Q|--qdir        [path] The absolute path to the folder containing the genomes to be queued in. This and the -G option are mutually exclusive
+    -G|--qgenomes    [string] The list of genome files, comma separated, to be queued in. This and the -Q option are mutually excl
+usive
+
 ## GENERAL PARAMETERS: [required]
 
-    -Q|--qdir        [path] The absolute path to the folder containing the genomes to be quered against the database
     -R|--resdir      [path] The absolute path to the folder in which the results will be cumulated
     -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search.
 
@@ -38,6 +43,10 @@ while [[ $1 =~ ^- ]]; do
         if [[ "$1" = "-Q" || $1 == '--qdir' ]]; then
                 qdir="$2"
                 params="$params -Q $qdir"
+                shift 2
+        elif [[ "$1" = "-G" || $1 == '--qgenomes' ]]; then
+                gfiles="$2"
+                params="$params -c $gfiles"
                 shift 2
         elif [[ "$1" = "-R" || $1 == '--resdir' ]]; then
                 resdir="$2"
@@ -95,14 +104,28 @@ echo "
 #check inputs
 if [ -z "$qdir" ];
         then
-                echo "
-	 Error: -Q parameter (query directory) is missing, with no default. You need to specify a directory of query genomes.
-	              Exiting.."
-		exit 1
+		if [ -z "$gfiles" ];
+		then
+                	echo "
+	Error: -Q parameter and -G parameter (query directory or query genomes) are missing, with no default. You need to specify a directory of query genomes.
+	                Exiting.."
+			exit 1
+		else
+			echo "
+	## Query genomes: -G
+		The query genomes are set to $gfiles"
+		fi
         else 
-                echo "
+		if [ -z "$gfiles" ];
+		then
+                	echo "
 	## Query dir: -Q
 		The query directory provided is set to $qdir"
+		else
+			echo "
+	Error: -Q parameter and -G paramater are specified at the same time, you need to specify either single genomes (-G) or entire folders containing genomes (-Q)"
+			exit 1
+		fi
 fi
 
 if [ -z "$resdir" ];
