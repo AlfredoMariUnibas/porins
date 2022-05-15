@@ -48,19 +48,21 @@ rule all:
 rule database_formatting:
     threads: workflow.cores * 0.25
     input:
-        raw_db=os.path.join(DBD,"{db}.faa"),
-        diamond=os.path.join(REPOPATH,"snakemake/config/diamond")
+        raw_db=os.path.join(DBD,"{db}.faa")
+    conda:
+        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_mac.yaml")
     output:
         form_db=os.path.join(PROC_DBD,"{db}.dmnd")
     shell:
-        "{input.diamond} makedb --in {input.raw_db} --db {output.form_db}"
+        "diamond makedb --in {input.raw_db} --db {output.form_db}"
 
 rule database_searching:
     threads: workflow.cores * 0.25
     input:
         raw_query=os.path.join(QD,"{sample}.fasta"),
-	search_db=os.path.join(PROC_DBD,"{db}.dmnd"),
-        diamond=os.path.join(REPOPATH,"snakemake/config/diamond")
+	search_db=os.path.join(PROC_DBD,"{db}.dmnd")
+    conda:
+        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_mac.yaml")
     output:
         matches=os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv")
     params:
@@ -73,7 +75,7 @@ rule database_searching:
 	b=config["db_search_b"],
 	max_tar_seqs=config["db_search_max_tar_seqs"]
     shell:
-        "{input.diamond} blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
+        "diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
 
 rule output_formatter:
     threads: workflow.cores * 1
@@ -85,6 +87,6 @@ rule output_formatter:
     output:
         outtable=os.path.join(PROC_REP,"collated.results.txt")
     conda:
-        os.path.join(REPOPATH,"snakemake/config/dependencies/R.yaml")
+        os.path.join(REPOPATH,"snakemake/config/dependencies/R_mac.yaml")
     shell:
         "Rscript {input.writer} {params.dir} {output.outtable}"
