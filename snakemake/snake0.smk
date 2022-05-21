@@ -50,7 +50,7 @@ rule database_formatting:
     input:
         raw_db=os.path.join(DBD,"{db}.faa")
     conda:
-        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_mac.yaml")
+        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_forge.yaml")
     output:
         form_db=os.path.join(PROC_DBD,"{db}.dmnd")
     shell:
@@ -62,7 +62,7 @@ rule database_searching:
         raw_query=os.path.join(QD,"{sample}.fasta"),
 	search_db=os.path.join(PROC_DBD,"{db}.dmnd")
     conda:
-        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_mac.yaml")
+        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_forge.yaml")
     output:
         matches=os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv")
     params:
@@ -75,7 +75,7 @@ rule database_searching:
 	b=config["db_search_b"],
 	max_tar_seqs=config["db_search_max_tar_seqs"]
     shell:
-        "diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --sensitive -c1"
+        "diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
 
 rule output_formatter:
     threads: workflow.cores * 1
