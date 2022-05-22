@@ -19,7 +19,8 @@ usive
 ## GENERAL PARAMETERS: [required]
 
     -R|--resdir      [path] The absolute path to the folder in which the results will be cumulated
-    -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search.
+    -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search, allowed values are exclusively: AC (Acinetobacter), EC (E.coli), ENT (Enterobacter),
+				PA (P.aeruginosa), KL (Klebsiella), all (all the previous, the entire database).  
 
 ## DATABASE SEARCH PARAMETERS: [optionals]
 
@@ -151,14 +152,19 @@ fi
 if [ -z "$taxonomy" ];
         then
                 echo "
-	Error: -T parameter (taxonomy specification) is missing, with no default. You need to specify a taxonomy spec among the following: AC,EC,ENT,PA,KL.
+	Error: -T parameter (taxonomy specification) is missing, with no default. You need to specify a taxonomy spec among the following: AC,EC,ENT,PA,KL,all.
                       Exiting.."
                 exit 1
-        else
-                echo "
+        elif [[ "$taxonomy" == "AC" || "$taxonomy" == "EC" || "$taxonomy" == "ENT" || "$taxonomy" == "PA" || "$taxonomy" == "KL" || "$taxonomy" == "all" ]];
+                then
+			echo "
 	## Taxonomy: -T
-		The taxonomy provided is set to $taxonomy, search will be limited to dbs belonging to this taxon
-"
+		The taxonomy provided is set to $taxonomy, search will be limited to dbs belonging to this taxon"
+	else 
+		echo "
+	## Taxonomy: -T
+		The taxonomy provided ($taxonomy) is none of the allowed values, please revert to one of the following: AC,EC,ENT,PA,KL,all, Exiting.."
+		exit 1
 fi
 
 echo "### Step 0.1. Initialization: Parsing and checking optional parameters.. ###"
