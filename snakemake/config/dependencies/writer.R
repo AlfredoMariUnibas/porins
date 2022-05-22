@@ -1,7 +1,10 @@
+#setwd("~/Documents/porinmatcher/por2/test/results2/")
 args <- commandArgs(trailingOnly = TRUE)
 tdir <- args[1]
 outfile <- args[2]
+taxonomy <- args[3]
 sub_dirs <- list.dirs(tdir,recursive = F)
+sub_dirs <- sub_dirs[!grepl("formatted", sub_dirs)]
 files <- list.files(sub_dirs,full.names = T)
 final_df <- data.frame()
 rem_df <- data.frame()
@@ -39,4 +42,5 @@ final_df$Mutation[which(grepl("\\*",final_df$Aligned_sequence_QUERY)==TRUE)] <- 
 rem_df$Mutation[which(as.numeric(rem_df$DB_coverage_per_HSP)<90)] <- "Incomplete"
 rem_df$Mutation[which(grepl("\\*",rem_df$Aligned_sequence_QUERY)==TRUE)] <- "Nonsense"
 end_df <- rbind(final_df, rem_df)
+end_df$Taxonomy <- taxonomy
 write.table(end_df, file = outfile, sep="\t", quote=F, col.names = T, row.names = F)
