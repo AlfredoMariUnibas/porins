@@ -13,8 +13,7 @@ mess="Usage: $N [parameters]
 ## INPUTS: [only one of the following options required, either -Q or -G]
 
     -Q|--qdir        [path] The absolute path to the folder containing the genomes to be queued in. This and the -G option are mutually exclusive
-    -G|--qgenomes    [string] The list of genome files, comma separated, to be queued in. This and the -Q option are mutually excl
-usive
+    -G|--qgenomes    [string] The list of genome files, comma separated, to be queued in. This and the -Q option are mutually exclusive
 
 ## GENERAL PARAMETERS: [required]
 
@@ -22,7 +21,11 @@ usive
     -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search, allowed values are exclusively: AC (Acinetobacter), EC (E.coli), ENT (Enterobacter),
 				PA (P.aeruginosa), KL (Klebsiella), all (all the previous, the entire database).  
 
-## DATABASE SEARCH PARAMETERS: [optionals]
+## TECHNICAL PARAMETERS: [optional]
+    
+    -t|--threads     [numeric] The number of threads to be used in the parallelisation of genome_vs_databse search: Default 4	
+
+## DATABASE SEARCH PARAMETERS: [optional]
 
     -D|--database_dir                [path] The path to the folder containing databases. Please use only in case there is a valid reason not to use the default ones. Default: porins/snakemake/databases/cds
     -dsg|--db_search_gencode         [numeric] Correspondant to --query-gencode in diamond. Default: 11
@@ -56,6 +59,10 @@ while [[ $1 =~ ^- ]]; do
         elif [[ "$1" = "-T" || $1 == '--taxonomy' ]]; then
                 taxonomy="$2"
                 params="$params -T $taxonomy"
+                shift 2
+	elif [[ "$1" = "-t" || $1 == '--threads' ]]; then
+                threads="$2"
+                params="$params -t $threads"
                 shift 2
         elif [[ "$1" = "-D" || $1 == '--database_dir' ]]; then
                 dbdir="$2"
@@ -108,13 +115,14 @@ if [ -z "$qdir" ];
 		if [ -z "$gfiles" ];
 		then
                 	echo "
-	Error: -Q parameter and -G parameter (query directory or query genomes) are missing, with no default. You need to specify a directory of query genomes.
+	## Query genomes: -G -Q --> ERROR! 
+		-Q parameter and -G parameter (query directory or query genomes) are missing, with no default. You need to specify a directory of query genomes or comma separated genomes in fasta format.
 	                Exiting.."
 			exit 1
 		else
 			echo "
 	## Query genomes: -G
-		The query genomes are set to $gfiles"
+		The query genomes are set to singular pick in $gfiles"
 			#move the files into a provisional temp dir
 			pdir=".tmp_genomedir/"
 			mkdir $pdir
@@ -132,7 +140,9 @@ if [ -z "$qdir" ];
 			pdir=$qdir
 		else
 			echo "
-	Error: -Q parameter and -G paramater are specified at the same time, you need to specify either single genomes (-G) or entire folders containing genomes (-Q)"
+	## Query dir: -Q -G --> ERROR! 
+		-Q parameter and -G paramater are specified at the same time, you need to specify either comma separated single genomes (-G) or entire folders containing genomes (-Q)
+			Exiting.."
 			exit 1
 		fi
 fi
@@ -140,7 +150,8 @@ fi
 if [ -z "$resdir" ];
         then
                 echo "
-	Error: -R parameter (results directory) is missing, with no default. You need to specify a directory where to store the outputs.
+	## Results dir: -R --> ERROR! 
+		Results directory is missing, with no default. You need to specify a directory where to store the outputs.
                       Exiting.."
                 exit 1
         else
@@ -152,7 +163,8 @@ fi
 if [ -z "$taxonomy" ];
         then
                 echo "
-	Error: -T parameter (taxonomy specification) is missing, with no default. You need to specify a taxonomy spec among the following: AC,EC,ENT,PA,KL,all.
+	## Taxonomy: -T  --> ERROR! 
+		taxonomy specification is missing, with no default. You need to specify a taxonomy spec among the following: AC,EC,ENT,PA,KL,all.
                       Exiting.."
                 exit 1
         elif [[ "$taxonomy" == "AC" || "$taxonomy" == "EC" || "$taxonomy" == "ENT" || "$taxonomy" == "PA" || "$taxonomy" == "KL" || "$taxonomy" == "all" ]];
@@ -162,9 +174,22 @@ if [ -z "$taxonomy" ];
 		The taxonomy provided is set to $taxonomy, search will be limited to dbs belonging to this taxon"
 	else 
 		echo "
-	## Taxonomy: -T
-		The taxonomy provided ($taxonomy) is none of the allowed values, please revert to one of the following: AC,EC,ENT,PA,KL,all, Exiting.."
+	## Taxonomy: -T  --> ERROR!
+		The taxonomy provided ($taxonomy) is none of the allowed values, please revert to one of the following: AC,EC,ENT,PA,KL,all, 
+			Exiting.."
 		exit 1
+fi
+
+if [ -z "$threads" ];
+        then
+                echo "
+        ## Threads: -t 
+		parameter not specified, resorting to default: 4"
+                threads=4
+        else
+                echo "
+        ## Threads: -t
+                The number of threads used is set to $threads"
 fi
 
 echo "### Step 0.1. Initialization: Parsing and checking optional parameters.. ###"
@@ -302,10 +327,12 @@ out_file: $resdir/Collated_table.txt
 " > config_"$id"/settings.yaml
 
 #run snakemake
-snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores 4
+snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores $threads --configfile config_"$id"/settings.yaml
 
 echo "
 ####################
 Assigned unique run ID to: $id
+Corresponding output available in: $resdir
+Summary of the settings used available in: config_"$id"/settings.yaml
 ####################
 "
