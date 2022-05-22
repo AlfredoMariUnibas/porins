@@ -163,7 +163,7 @@ fi
 
 echo "### Step 0.1. Initialization: Parsing and checking optional parameters.. ###"
 
-piperoot="/Users/alf/Documents/por2/porins"
+piperoot="/Users/alf/Documents/porinmatcher/por2/porins"
 if [ -z "$dbdir" ];
         then
                 echo "
