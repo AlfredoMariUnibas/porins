@@ -151,13 +151,13 @@ fi
 if [ -z "$taxonomy" ];
         then
                 echo "
-	Error: -T parameter (taxonomy specification) is missing, with no default. You need to specify a taxonomy spec among the following: .
+	Error: -T parameter (taxonomy specification) is missing, with no default. You need to specify a taxonomy spec among the following: AC,EC,ENT,PA,KL.
                       Exiting.."
                 exit 1
         else
                 echo "
 	## Taxonomy: -T
-		The taxonomy provided is set to $taxonomy
+		The taxonomy provided is set to $taxonomy, search will be limited to dbs belonging to this taxon
 "
 fi
 

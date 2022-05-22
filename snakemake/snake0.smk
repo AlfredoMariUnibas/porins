@@ -18,9 +18,20 @@ REPOPATH=os.path.abspath(config["repopath"])
 #dbs --> to be sourced from db_dir
 db_files = [Path(f) for f in listdir(config["db_dir"]) if isfile(join(config["db_dir"], f))]
 
-#dbs= sorted(set([s.strip(".faa") for s in db_files]))
 dbs= [s.with_suffix('') for s in db_files]
-print(dbs)
+##limit the dbs of interest to the ones that match the taxonomy queues
+TAX=config["taxonomy"]
+tax_cue = "{}*".format(TAX)
+import os, fnmatch
+dbfiles_T=fnmatch.filter(os.listdir(config["db_dir"]), tax_cue)
+dbsT = [os.path.splitext(dbtl)[0] for dbtl in dbfiles_T]
+
+#unless the search needs to be on all the dbs, in which case all dbs will be taken
+if TAX == "all":
+    tar_dbs=dbs
+else:
+    tar_dbs=dbsT
+
 #queries --> to be sourced from q_dir
 q_files = [Path(f) for f in listdir(config["q_dir"]) if isfile(join(config["q_dir"], f))]
 #queries= sorted(set([s.strip(".fasta") for s in q_files]))
@@ -40,8 +51,8 @@ PROC_REP=config["results_dir"]
 #defining the outputs
 rule all:
     input:
-        expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
-        expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=dbs),
+        expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=tar_dbs),
+        expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=tar_dbs),
         os.path.join(PROC_REP,"collated.results.txt")
 #getting the database search going
 
