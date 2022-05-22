@@ -265,9 +265,13 @@ if [ -z "$dm" ];
                 WARNING: Applying the custom value: $dm"
 fi
 
+rand_n=$(echo $RANDOM % 123 | bc)
+id="$taxonomy"_"$rand_n"
+
 ##writing the settings.yaml for the snakemake to run
-mkdir config/
+mkdir config_"$id"/
 echo "
+#This run is assigned to the id: $id
 #The path to the repo:
 repopath: $piperoot
 #the initial samples dir and databases dirs:
@@ -295,8 +299,13 @@ db_search_b: $dsb
 db_search_max_tar_seqs: $dsm
 
 out_file: $resdir/Collated_table.txt
-" > config/settings.yaml
+" > config_"$id"/settings.yaml
 
 #run snakemake
 snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores 4
 
+echo "
+####################
+Assigned unique run ID to: $id
+####################
+"
