@@ -274,6 +274,8 @@ q_dir: $pdir
 processed_db_dir: $resdir/.formatted_db/
 #result folder
 results_dir: $resdir
+#taxonomy chosen
+taxonomy: $taxonomy
 
 # additional thresholds if needed here below
 #db_search def thresholds 

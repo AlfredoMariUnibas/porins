@@ -83,10 +83,11 @@ rule output_formatter:
         form_db=expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
 	writer=os.path.join(REPOPATH,"snakemake/config/dependencies/writer.R")
     params:
-        dir= config["results_dir"]
+        dir=config["results_dir"],
+        taxonomy=config["taxonomy"]
     output:
         outtable=os.path.join(PROC_REP,"collated.results.txt")
     conda:
         os.path.join(REPOPATH,"snakemake/config/dependencies/R_mac.yaml")
     shell:
-        "Rscript {input.writer} {params.dir} {output.outtable}"
+        "Rscript {input.writer} {params.dir} {output.outtable} {params.taxonomy}"
