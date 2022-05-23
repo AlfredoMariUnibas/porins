@@ -53,7 +53,8 @@ rule all:
     input:
         expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=tar_dbs),
         expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=tar_dbs),
-        os.path.join(PROC_REP,"collated.results.txt")
+        config["out_file"]
+	#os.path.join(PROC_REP,"collated.results.txt")
 #getting the database search going
 
 rule database_formatting:
@@ -97,7 +98,7 @@ rule output_formatter:
         dir=config["results_dir"],
         taxonomy=config["taxonomy"]
     output:
-        outtable=os.path.join(PROC_REP,"collated.results.txt")
+        outtable=config["out_file"]
     conda:
         os.path.join(REPOPATH,"snakemake/config/dependencies/R_mac.yaml")
     shell:
