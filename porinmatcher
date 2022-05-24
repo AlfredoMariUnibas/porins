@@ -194,7 +194,7 @@ fi
 
 echo "### Step 0.1. Initialization: Parsing and checking optional parameters.. ###"
 
-piperoot="/Users/alf/Documents/porinmatcher/por2/porins"
+piperoot="$PORINMATCHERREPO" #"/Users/alf/Documents/porinmatcher/por2/porins"
 if [ -z "$dbdir" ];
         then
                 echo "
@@ -327,6 +327,8 @@ out_file: $resdir/Collated_table.txt
 " > config_"$id"/settings.yaml
 
 #run snakemake
+conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinmamba
+conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinsnakemake
 snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores $threads --configfile config_"$id"/settings.yaml
 
 echo "
