@@ -327,8 +327,8 @@ out_file: $resdir/Collated_table.txt
 " > config_"$id"/settings.yaml
 
 #run snakemake
-conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinmamba
-conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinsnakemake
+#conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinmamba
+#conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinsnakemake
 snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores $threads --configfile config_"$id"/settings.yaml
 
 echo "
