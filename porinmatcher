@@ -328,7 +328,8 @@ out_file: $resdir/Collated_table.txt
 
 #run snakemake
 #conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinmamba
-#conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinsnakemake
+conda config --set channel_priority strict
+source activate $piperoot/porinsnakemake
 snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores $threads --configfile config_"$id"/settings.yaml
 
 echo "
