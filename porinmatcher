@@ -4,7 +4,20 @@ set -e -o pipefail
 
 N="`basename "$0"`"
 
-mess="Usage: $N [parameters]
+mess="
+                             d8,                                                  d8b
+                             8P                                      d8P          ?88
+                                                                  d888888P         88b
+?88,.d88b, d8888b   88bd88b  88b  88bd88b   88bd8b,d88b  d888b8b    ?88'   d8888b  888888b  d8888b  88bd88b
+ ?88'  ?88d8P' ?88  88P'     88P  88P' ?8b  88P' ?8P'?8bd8P' ?88    88P   d8P'  P  88P  ?8bd8b_,dP  88P'  
+  88b  d8P88b  d88 d88      d88  d88   88P d88  d88  88P88b  ,88b   88b   88b     d88   88P88b     d88
+  888888P' ?8888P'd88'     d88' d88'   88bd88' d88'  88b ?88P' 88b  '?8b   ?888P'd88'   88b ?888P'd88'
+  88P'
+ d88
+ ?8P
+
+
+Usage: $N [parameters]
 
 ## INFOS
      
