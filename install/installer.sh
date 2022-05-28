@@ -9,7 +9,8 @@ repopath=$(dirname $curdir)
 #Installing the conda environments
 #install the environments needed (snakemake)
 echo "## Creating snakemake env to run porinmatcher"
-if <conda --version>;
+conda --version
+if [ $? = 0 ];
 then
 	echo "Conda version found: $(conda --version), proceeding.."
 else
@@ -17,10 +18,24 @@ else
 		Please consult the github page (https://github.com/AlfredoMariUnibas/porins) for more information, Exiting.."
 	exit 1
 fi 
-conda create -p "$repopath"/porinmamba -c conda-forge mamba
+
+if [ -d "$repopath"/porinmamba ];
+then
+	echo "Mamba not found, building it.."
+	conda create -p "$repopath"/porinmamba -c conda-forge mamba
+else
+	echo "Mamba already present, moving forward.."
+fi
 conda config --set channel_priority strict
 source activate "$repopath"/porinmamba
-mamba create -c conda-forge -c bioconda -p "$repopath"/porinsnakemake snakemake
+
+if [ -d "$repopath"/porinsnakemake ];
+then
+        echo "Snakemake not found, building it.."
+	mamba create -c conda-forge -c bioconda -p "$repopath"/porinsnakemake snakemake
+else
+        echo "Snakemake already present, moving forward.."
+fi
 
 
 
