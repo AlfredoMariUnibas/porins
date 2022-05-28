@@ -19,7 +19,7 @@ else
 	exit 1
 fi 
 
-if [ -d "$repopath"/porinmamba ];
+if [ ! -d "$repopath"/porinmamba ];
 then
 	echo "Mamba not found, building it.."
 	conda create -p "$repopath"/porinmamba -c conda-forge mamba
@@ -29,7 +29,7 @@ fi
 conda config --set channel_priority strict
 source activate "$repopath"/porinmamba
 
-if [ -d "$repopath"/porinsnakemake ];
+if [ ! -d "$repopath"/porinsnakemake ];
 then
         echo "Snakemake not found, building it.."
 	mamba create -c conda-forge -c bioconda -p "$repopath"/porinsnakemake snakemake
@@ -75,16 +75,8 @@ else
         echo "Paths added, sourcing the path to $rc"
 	echo "source $porinrc" > $rc	
 fi
-echo "Porinmatcher script installed, now proceeding with the environments.."
+echo "Porinmatcher script installed.."
 #activate the changes
-source ~/.bashrc
-#install the environments needed (snakemake)
-echo "## Creating snakemake env to run porinmatcher"
-conda create -p "$repopath"/porinmamba -c conda-forge mamba
-conda config --set channel_priority strict
-source activate "$repopath"/porinmamba
-mamba create -c conda-forge -c bioconda -p "$repopath"/porinsnakemake snakemake
-
-echo "## Environments created, software installed, please restart the shell in order to use it.
-	To test the installation, type in a new shell 
-	porinmathcer --help"
+source $rc
+echo "## Environments created, software installed successfully. To test the installation, type 
+	porinmatcher --help"
