@@ -1,55 +1,71 @@
 # PorinMatcher
 PorinMatcher performs basic blast search and reporting of intact and partial porin sequences from genome assemblies against an up-to-date and curated database.
-## Structure (internal --> to be removed for publishing)
-The scicore directory contains the original scripts used on scicore, the snakemake dir the developing of the snakemake pipe
 ### Installation
-Main requirements are have:
+Main requirements:
 - conda v4.9 or higher
-- snakemake v6.6 or higher
 - git v2.23 or higher
 
-#### Snakemake install:
-Snakemake runs best if contextually mamba is installed as well
-```
-$ conda install -n base -c conda-forge mamba
-$ conda activate base
-$ mamba create -c conda-forge -c bioconda -p path/to/your/snakemake snakemake
-$ conda activate path/to/your/snakemake
-```
-Afterwards, to import the scripts and the dependencies, clone this repository to your directory of choice
+After making sure both git and conda are in place, the installation of porinmatcher is straight-forward:
 
 ```
 $ git clone https://github.com/AlfredoMariUnibas/porins path/to/PorinMatcher
+$ cd path/to/PorinMatcher/install/
+
+## for installation on mac os
+$ bash installer.sh mac 
+
+## for installation in linux
+$ bash installer.sh linux
 ```
 
-PorinMatcher utilises snakemake and diamond to match each database with each genome, and it is optimised to achieve this with parallel computing. To utilise its power to the max, it is reccommended to allocate a number of threads of 4 or multiple of 4. 
+After this, make sure to restart your shell and test the correct installation by typing from anywhere in your laptop:
 
-### Running the pipe
-Once snakemake is properly installed, running PorinMatcher in its default options is straight forward
+`$ porinmatcher --help`
 
-```
-$ snakemake -s path/to/PorinMatcher/snakemake/snake0.smk --use-conda --cores 4
-```
-### Parametrisation
-A number of parameters are customisable and are mostly concerning the diamond blast. In order to apply a different parameter from the default, just state it in the commandline using the config flag of snakemake:
-For example, to source a different directory in which the pipe should source the query genomes type the following:
-```
-$ snakemake -s path/to/PorinMatcher/snakemake/snake0.smk --use-conda --cores 4 --config q_dir=../my_reads/
-```
-please note that if no `--config` flag is used, the default parameters will apply. Please find below a list of each customisable parameter, and its defaults
+## Running porinmatcher
 
-### Parameters
-| Parameter | Description | Default |
-|:--------|:---------:|------:|
-| db_dir | Directory containing the databases [string/path] | databases/ |
-| q_dir | Directory containing the query genomes [string/path] | queries/ |
-| processed_db_dir | Directory outputting the formatted databases [string/path] | formatted_db/ |
-| results_dir | Directory contianing the results [string/path] | results/ | 
-| db_search_gencode| Correspondant of `--query-gencode` in diamond [integer] | 11 |
-| db_search_p | Correspondant of `-p` in diamond [integer] | 16 |
-| db_search_id | Correspondant of `--id` in diamond [integer] | 90 |
-| db_search_sub_cover | Correspondant of `--subject-cover` in diamond [integer] | 50 |
-| masking | Correspondant of `--masking` in diamond [integer] | 0 |
-| db_search_outfmt | Correspondant of `--outfmt` in diamond [integer] | 6 |
-| db_search_b | Correspondant of `-b` in diamond [integer] | 6 |
-| db_search_max_tar_seqs | Correspondant of `--max-target-seqs` in diamond [integer] | 1 |
+
+                             d8,                                                  d8b
+                             8P                                      d8P          ?88
+                                                                  d888888P         88b
+?88,.d88b, d8888b   88bd88b  88b  88bd88b   88bd8b,d88b  d888b8b    ?88'   d8888b  888888b  d8888b  88bd88b
+ ?88'  ?88d8P' ?88  88P'     88P  88P' ?8b  88P' ?8P'?8bd8P' ?88    88P   d8P'  P  88P  ?8bd8b_,dP  88P'
+  88b  d8P88b  d88 d88      d88  d88   88P d88  d88  88P88b  ,88b   88b   88b     d88   88P88b     d88
+  888888P' ?8888P'd88'     d88' d88'   88bd88' d88'  88b ?88P' 88b  '?8b   ?888P'd88'   88b ?888P'd88'
+  88P'
+ d88
+ ?8P
+
+
+Usage: porinmatcher [parameters]
+
+### INFOS
+
+    -h|--help        Print this message and exit
+
+### INPUTS: [only one of the following options required, either -Q or -G]
+
+    -Q|--qdir        [path] The absolute path to the folder containing the genomes to be queued in. This and the -G option are mutually exclusive
+    -G|--qgenomes    [string] The list of genome files, comma separated, to be queued in. This and the -Q option are mutually exclusive
+
+### GENERAL PARAMETERS: [required]
+
+    -R|--resdir      [path] The absolute path to the folder in which the results will be cumulated
+    -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search, allowed values are exclusively: AC (Acinetobacter), EC (E.coli), ENT (Enterobacter),
+				PA (P.aeruginosa), KL (Klebsiella), all (all the previous, the entire database).
+
+### TECHNICAL PARAMETERS: [optional]
+
+    -t|--threads     [numeric] The number of threads to be used in the parallelisation of genome_vs_databse search: Default 4
+
+### DATABASE SEARCH PARAMETERS: [optional]
+
+    -D|--database_dir                [path] The path to the folder containing databases. Please use only in case there is a valid reason not to use the default ones. Default: porins/snakemake/databases/cds
+    -dsg|--db_search_gencode         [numeric] Correspondant to --query-gencode in diamond. Default: 11
+    -dsp|--db_search_p               [numeric] Correspondant to -p in diamond. Default: 16
+    -dsi|--db_search_id              [numeric] Correspondant to --id in diamond. Default: 95
+    -dssc|--db_search_sub_cover      [numeric] Correspondant to --subject-cover in diamond. Default: 60
+    -dso|--db_search_outfmt          [numeric] Correspondant to --outfmt in diamond. Default: 6
+    -dsb|--db_search_b               [numeric] Correspondant to -b in diamond. Default: 6
+    -dsm|--db_search_max_tar_seqs    [numeric] Correspondant to --max-target-seqs in diamond. Default: 1
+    -dm|--db_masking                 [numeric] Correspondant to --masking in diamond. Default: 0
