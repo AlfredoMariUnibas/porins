@@ -27,6 +27,10 @@ After this, make sure to restart your shell and test the correct installation by
 
 Usage: porinmatcher [parameters]
 
+### EXAMPLE
+
+porinmatcher -t 8 -R res10 -T EC -Q path/toPorinMatcher/snakemake/databases/examples/queries
+
 ### INFOS
 
     -h|--help        Print this message and exit
