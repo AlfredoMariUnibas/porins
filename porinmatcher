@@ -347,6 +347,7 @@ snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores $threads --confi
 
 echo "
 ####################
+Repo version being sourced: $piperoot
 Assigned unique run ID to: $id
 Corresponding output available in: $resdir
 Summary of the settings used available in: config_"$id"/settings.yaml
