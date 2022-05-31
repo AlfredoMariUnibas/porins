@@ -45,7 +45,7 @@ porinrc=~/.porinmatcherrc
 if [[ "$os" == "mac"  ]];
 then
 	rc=~/.zprofile
-elif [["$os" == "linux" ]];
+elif [[ "$os" == "linux" ]];
 then
 	rc=~/.bashrc
 else
