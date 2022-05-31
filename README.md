@@ -25,7 +25,7 @@ After this, make sure to restart your shell and test the correct installation by
 ## Running porinmatcher
 
 
-                             d8,                                                  d8b
+"                             d8,                                                  d8b
                              8P                                      d8P          ?88
                                                                   d888888P         88b
 ?88,.d88b, d8888b   88bd88b  88b  88bd88b   88bd8b,d88b  d888b8b    ?88'   d8888b  888888b  d8888b  88bd88b
@@ -35,7 +35,7 @@ After this, make sure to restart your shell and test the correct installation by
   88P'
  d88
  ?8P
-
+"
 
 Usage: porinmatcher [parameters]
 
