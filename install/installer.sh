@@ -41,7 +41,7 @@ fi
 
 #export path to porimatcher script to bashrc and to the current shell
 echo "## Loading paths in .porinmatcherrc .."
-porinrc=~./porinmatcherrc
+porinrc=~/.porinmatcherrc
 if [[ "$os" == "mac"  ]];
 then
 	rc=~/.zprofile
