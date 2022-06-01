@@ -208,6 +208,7 @@ fi
 echo "### Step 0.1. Initialization: Parsing and checking optional parameters.. ###"
 
 piperoot="$PORINMATCHERREPO" #"/Users/alf/Documents/porinmatcher/por2/porins"
+renv_path="$RENVPORIN"
 if [ -z "$dbdir" ];
         then
                 echo "
@@ -336,6 +337,8 @@ db_search_outfmt: $dso
 db_search_b: $dsb
 db_search_max_tar_seqs: $dsm
 
+renv: $renv_path
+
 out_file: $resdir/Collated_table.txt
 " > config_"$id"/settings.yaml
 
@@ -352,4 +355,5 @@ Assigned unique run ID to: $id
 Corresponding output available in: $resdir
 Summary of the settings used available in: config_"$id"/settings.yaml
 ####################
+renv: $renv_path
 "

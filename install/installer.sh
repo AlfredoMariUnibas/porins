@@ -45,9 +45,11 @@ porinrc=~/.porinmatcherrc
 if [[ "$os" == "mac"  ]];
 then
 	rc=~/.zprofile
+	echo "export RENVPORIN=$repopath/snakemake/config/dependencies/R_mac.yaml" > $porinrc
 elif [[ "$os" == "linux" ]];
 then
 	rc=~/.bashrc
+	echo "export RENVPORIN=$repopath/snakemake/config/dependencies/R_linux.yaml" > $porinrc
 else
 	echo "
 		You specified nor linux nor mac installation, Note that this software works only to the above mentioned platfomrs. 
@@ -59,7 +61,7 @@ fi
 if [ -e ${rc} ];
 then
 	echo "$rc found, adding script path and repopath.. "
-	echo "export PORINMATCHERREPO=$repopath" > $porinrc
+	echo "export PORINMATCHERREPO=$repopath" >> $porinrc
 	echo "alias porinmatcher='$repopath/porinmatcher'" >> $porinrc
 	echo "Paths added, sourcing the path to $rc"
 	if ! grep -q porinmatcher "$rc"; 
@@ -70,7 +72,7 @@ then
 	fi
 else
 	echo "$rc not found, creating one and adding script path.."
-        echo "export PORINMATCHERREPO=$repopath" > $porinrc
+        echo "export PORINMATCHERREPO=$repopath" >> $porinrc
         echo "alias porinmatcher='$repopath/porinmatcher'" >> $porinrc
         echo "Paths added, sourcing the path to $rc"
 	echo "source $porinrc" > $rc	
