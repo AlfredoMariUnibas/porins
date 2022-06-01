@@ -337,6 +337,7 @@ db_search_b: $dsb
 db_search_max_tar_seqs: $dsm
 
 out_file: $resdir/Collated_table.txt
+renv: renv_placeholder
 " > config_"$id"/settings.yaml
 
 #run snakemake
