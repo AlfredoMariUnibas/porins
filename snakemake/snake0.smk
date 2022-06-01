@@ -100,7 +100,6 @@ rule output_formatter:
     output:
         outtable=config["out_file"]
     conda:
-        config["renv"]
-	#os.path.join(REPOPATH,"snakemake/config/dependencies/R_mac.yaml")
+        os.path.join(REPOPATH,"snakemake/config/dependencies/R_mac.yaml")
     shell:
         "Rscript {input.writer} {params.dir} {output.outtable} {params.taxonomy}"

@@ -45,11 +45,9 @@ porinrc=~/.porinmatcherrc
 if [[ "$os" == "mac"  ]];
 then
 	rc=~/.zprofile
-	sed -n s/renv_placeholder/\$piperoot\/snakemake\/config\/dependencies\/R_mac.yaml/g 
 elif [[ "$os" == "linux" ]];
 then
 	rc=~/.bashrc
-	sed -n s/renv_placeholder/\$piperoot\/snakemake\/config\/dependencies\/R_linux.yaml/g
 else
 	echo "
 		You specified nor linux nor mac installation, Note that this software works only to the above mentioned platfomrs. 
