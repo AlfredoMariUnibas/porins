@@ -1,3 +1,0 @@
-FileNotFoundError in line 11 of /scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/porin/snakemake/snake_dev.smk:
-[Errno 2] No such file or directory: '../test6/d/'
-  File "/scicore/home/egliadr/GROUP/projects/PorinLoss/Software/snakemake/porin/snakemake/snake_dev.smk", line 11, in <module>

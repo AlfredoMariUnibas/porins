@@ -11,9 +11,9 @@ from pathlib import Path
 
 #configfile
 import subprocess
-confpath = os.path.join("config/settings.yaml")
+confpath = os.path.join(workflow.basedir,"config/settings.yaml")
+
 configfile: confpath
-REPOPATH=os.path.abspath(config["repopath"])
 	
 #dbs --> to be sourced from db_dir
 db_files = [Path(f) for f in listdir(config["db_dir"]) if isfile(join(config["db_dir"], f))]
@@ -51,30 +51,30 @@ PROC_REP=config["results_dir"]
 #defining the outputs
 rule all:
     input:
-        expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=tar_dbs),
+        expand(os.path.join(workflow.basedir,"databases/cds/{db}.dmnd"), db=tar_dbs),
         expand(os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv"), sample=queries, db=tar_dbs),
         config["out_file"]
 	#os.path.join(PROC_REP,"collated.results.txt")
 #getting the database search going
 
-rule database_formatting:
-    threads: workflow.cores * 0.25
-    input:
-        raw_db=os.path.join(DBD,"{db}.faa")
-    conda:
-        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_forge.yaml")
-    output:
-        form_db=os.path.join(PROC_DBD,"{db}.dmnd")
-    shell:
-        "diamond makedb --in {input.raw_db} --db {output.form_db}"
+#rule database_formatting: # MB: entire block inactivated; pre-formatted databases will be downloaded during installation and fixed path to those used
+#    threads: workflow.cores * 0.25
+#    input:
+#        raw_db=os.path.join(DBD,"{db}.faa")
+#    conda:
+#        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_forge.yaml")
+#    output:
+#        form_db=os.path.join(PROC_DBD,"{db}.dmnd")
+#    shell:
+#        "diamond makedb --in {input.raw_db} --db {output.form_db}"
 
 rule database_searching:
     threads: workflow.cores * 0.25
     input:
         raw_query=os.path.join(QD,"{sample}.fasta"),
-	search_db=os.path.join(PROC_DBD,"{db}.dmnd")
-    conda:
-        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_forge.yaml")
+	search_db=os.path.join(workflow.basedir,"databases/cds/{db}.dmnd") # MB: set relative to basedir, use always same database
+#    conda: # MB: inactivated, not required
+#        os.path.join(REPOPATH,"snakemake/config/dependencies/diamond_forge.yaml")
     output:
         matches=os.path.join(PROC_REP,"{sample}/{sample}.vs.{db}.matches.tsv")
     params:
@@ -87,13 +87,13 @@ rule database_searching:
 	b=config["db_search_b"],
 	max_tar_seqs=config["db_search_max_tar_seqs"]
     shell:
-        "diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1"
+        "diamond blastx --query-gencode {params.query_gencode} -d {input.search_db} -q {input.raw_query} -o {output.matches} -p {params.p} --id {params.id} --subject-cover {params.subject_cover} --masking {params.masking}  --outfmt {params.outfmt} qseqid sseqid slen pident scovhsp length mismatch gapopen qstart qend sstart send evalue bitscore qstrand qseq_translated full_sseq -b {params.b} --max-target-seqs {params.max_tar_seqs} --header --sensitive -c1 --quiet" # MB: --quiet added
 
 rule output_formatter:
     threads: workflow.cores * 1
     input:
-        form_db=expand(os.path.join(PROC_DBD,"{db}.dmnd"), db=dbs),
-	writer=os.path.join(REPOPATH,"snakemake/config/dependencies/writer.R")
+        form_db=expand(os.path.join(workflow.basedir,"databases/cds/{db}.dmnd"), db=dbs), # MB: set relative to basedir
+	writer=os.path.join(workflow.basedir,"config/dependencies/writer.R") # MB: set relative to basedir
     params:
         dir=config["results_dir"],
         taxonomy=config["taxonomy"]

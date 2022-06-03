@@ -1,9 +1,0 @@
-name: null
-channels:
-  - bioconda
-  - defaults
-dependencies:
-  - diamond=0.9.14
-  - libcxx=12.0.0
-  - zlib=1.2.12
-prefix: /Users/alf/Documents/por2/diamond

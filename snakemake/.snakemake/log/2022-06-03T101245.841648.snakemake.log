@@ -1,0 +1,123 @@
+Building DAG of jobs...
+File path /mnt/10_carbapenem_porins/test/PA//Collated_table.txt contains double '/'. This is likely unintended. It can also lead to inconsistent results of the file-matching approach used by Snakemake.
+File path /mnt/10_carbapenem_porins/test/PA//Collated_table.txt contains double '/'. This is likely unintended. It can also lead to inconsistent results of the file-matching approach used by Snakemake.
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                   count    min threads    max threads
+------------------  -------  -------------  -------------
+all                       1              1              1
+database_searching        6              2              2
+output_formatter          1              8              8
+total                     8              1              8
+
+Select jobs to execute...
+
+[Fri Jun  3 10:12:46 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/test/Pseudomonas_aeruginosa/115108-20.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /mnt/10_carbapenem_porins/test/PA/115108-20/115108-20.vs.PA_oprD.matches.tsv
+    jobid: 3
+    wildcards: sample=115108-20, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+
+
+[Fri Jun  3 10:12:46 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/test/Pseudomonas_aeruginosa/131533-19.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /mnt/10_carbapenem_porins/test/PA/131533-19/131533-19.vs.PA_oprD.matches.tsv
+    jobid: 4
+    wildcards: sample=131533-19, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+
+
+[Fri Jun  3 10:12:46 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/test/Pseudomonas_aeruginosa/132269-1-20.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /mnt/10_carbapenem_porins/test/PA/132269-1-20/132269-1-20.vs.PA_oprD.matches.tsv
+    jobid: 6
+    wildcards: sample=132269-1-20, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+
+
+[Fri Jun  3 10:12:46 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/test/Pseudomonas_aeruginosa/287.1002_PA.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /mnt/10_carbapenem_porins/test/PA/287.1002_PA/287.1002_PA.vs.PA_oprD.matches.tsv
+    jobid: 2
+    wildcards: sample=287.1002_PA, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+
+[Fri Jun  3 10:12:50 2022]
+Finished job 3.
+1 of 8 steps (12%) done
+Select jobs to execute...
+
+[Fri Jun  3 10:12:50 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/test/Pseudomonas_aeruginosa/287.1237_PA.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /mnt/10_carbapenem_porins/test/PA/287.1237_PA/287.1237_PA.vs.PA_oprD.matches.tsv
+    jobid: 5
+    wildcards: sample=287.1237_PA, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+
+[Fri Jun  3 10:12:50 2022]
+Finished job 6.
+2 of 8 steps (25%) done
+Select jobs to execute...
+
+[Fri Jun  3 10:12:50 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/test/Pseudomonas_aeruginosa/114779-19.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /mnt/10_carbapenem_porins/test/PA/114779-19/114779-19.vs.PA_oprD.matches.tsv
+    jobid: 1
+    wildcards: sample=114779-19, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+
+[Fri Jun  3 10:12:50 2022]
+Finished job 2.
+3 of 8 steps (38%) done
+Select jobs to execute...
+[Fri Jun  3 10:12:50 2022]
+Finished job 4.
+4 of 8 steps (50%) done
+Select jobs to execute...
+[Fri Jun  3 10:12:52 2022]
+Finished job 1.
+5 of 8 steps (62%) done
+Select jobs to execute...
+[Fri Jun  3 10:12:52 2022]
+Finished job 5.
+6 of 8 steps (75%) done
+Select jobs to execute...
+
+[Fri Jun  3 10:12:52 2022]
+rule output_formatter:
+    input: /home/ubuntu/tools/porins/snakemake/databases/cds/KL_ompK36.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/KL_ompK35.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/AC_carO.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/AC_carO.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/AC_omp33-36kDa.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/ENT_ompC.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/EC_ompC.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/KL_ompK36.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/AC_occAB1.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/KL_ompK35.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/AC_occAB1.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/EC_ompC.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/ENT_ompF.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/AC_omp33-36kDa.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/ENT_ompF.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/ENT_ompC.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/EC_ompF.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/EC_ompF.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd, /home/ubuntu/tools/porins/snakemake/config/dependencies/writer.R
+    output: /mnt/10_carbapenem_porins/test/PA//Collated_table.txt
+    jobid: 7
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Fri Jun  3 10:12:52 2022]
+Finished job 7.
+7 of 8 steps (88%) done
+Select jobs to execute...
+
+[Fri Jun  3 10:12:52 2022]
+localrule all:
+    input: /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd, /mnt/10_carbapenem_porins/test/PA/114779-19/114779-19.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/114779-19/114779-19.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/287.1002_PA/287.1002_PA.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/287.1002_PA/287.1002_PA.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/115108-20/115108-20.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/115108-20/115108-20.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/131533-19/131533-19.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/131533-19/131533-19.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/287.1237_PA/287.1237_PA.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/287.1237_PA/287.1237_PA.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/132269-1-20/132269-1-20.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA/132269-1-20/132269-1-20.vs.PA_oprD.matches.tsv, /mnt/10_carbapenem_porins/test/PA//Collated_table.txt
+    jobid: 0
+    resources: tmpdir=/tmp
+
+[Fri Jun  3 10:12:52 2022]
+Finished job 0.
+8 of 8 steps (100%) done
+Complete log: /home/ubuntu/tools/porins/snakemake/.snakemake/log/2022-06-03T101245.841648.snakemake.log

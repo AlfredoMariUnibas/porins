@@ -1,0 +1,23 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                   count    min threads    max threads
+------------------  -------  -------------  -------------
+all                       1              1              1
+database_searching        6              2              2
+output_formatter          1              8              8
+total                     8              1              8
+
+Select jobs to execute...
+
+[Fri Jun  3 10:03:02 2022]
+rule database_searching:
+    input: /home/ubuntu/tools/porins/snakemake/test/Pseudomonas_aeruginosa/115108-20.fasta, /home/ubuntu/tools/porins/snakemake/databases/cds/PA_oprD.dmnd
+    output: /result/115108-20/115108-20.vs.PA_oprD.matches.tsv
+    jobid: 3
+    wildcards: sample=115108-20, db=PA_oprD
+    threads: 2
+    resources: tmpdir=/tmp
+

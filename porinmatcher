@@ -2,6 +2,8 @@
 
 set -e -o pipefail
 
+MY_PATH=$(dirname "$0")
+
 N="`basename "$0"`"
 
 mess="
@@ -31,7 +33,7 @@ Usage: $N [parameters]
 ## GENERAL PARAMETERS: [required]
 
     -R|--resdir      [path] The absolute path to the folder in which the results will be cumulated
-    -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search, allowed values are exclusively: AC (Acinetobacter), EC (E.coli), ENT (Enterobacter),
+    -T|--taxonomy    [string] A string indicating the taxonomy on which to limit the search, allowed values are exclusively: 
 				PA (P.aeruginosa), KL (Klebsiella), all (all the previous, the entire database).  
 
 ## TECHNICAL PARAMETERS: [optional]
@@ -177,7 +179,7 @@ if [ -z "$taxonomy" ];
         then
                 echo "
 	## Taxonomy: -T  --> ERROR! 
-		taxonomy specification is missing, with no default. You need to specify a taxonomy spec among the following: AC,EC,ENT,PA,KL,all.
+		taxonomy specification is missing, with no default. You need to specify a taxonomy spec among the following: PA,KL,all.
                       Exiting.."
                 exit 1
         elif [[ "$taxonomy" == "AC" || "$taxonomy" == "EC" || "$taxonomy" == "ENT" || "$taxonomy" == "PA" || "$taxonomy" == "KL" || "$taxonomy" == "all" ]];
@@ -188,7 +190,7 @@ if [ -z "$taxonomy" ];
 	else 
 		echo "
 	## Taxonomy: -T  --> ERROR!
-		The taxonomy provided ($taxonomy) is none of the allowed values, please revert to one of the following: AC,EC,ENT,PA,KL,all, 
+		The taxonomy provided ($taxonomy) is none of the allowed values, please revert to one of the following: PA,KL,all, 
 			Exiting.."
 		exit 1
 fi
@@ -214,7 +216,7 @@ if [ -z "$dbdir" ];
                 echo "
 	## Database folder: -D  
 		The database folder is set to the default: porin/snakemake/databases/cds"
-		dbdir=$piperoot/snakemake/databases/cds/
+		dbdir=$MY_PATH/snakemake/databases/cds/  # MB
         else
                 echo "
 	 ## Database folder: -D
@@ -343,10 +345,7 @@ out_file: $resdir/Collated_table.txt
 " > config_"$id"/settings.yaml
 
 #run snakemake
-#conda activate /Users/alf/Documents/porinmatcher/por2/porins/porinmamba
-conda config --set channel_priority strict
-source activate $piperoot/porinsnakemake
-snakemake -s $piperoot/snakemake/snake0.smk --use-conda --cores $threads --configfile config_"$id"/settings.yaml
+snakemake -s $MY_PATH/snakemake/snake0.smk --use-conda --cores $threads --configfile config_"$id"/settings.yaml --conda-frontend conda
 
 echo "
 ####################
